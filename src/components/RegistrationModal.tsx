@@ -18,6 +18,7 @@ import {
 import { PlanService, User } from '../types';
 import { AvatarCropper } from './AvatarCropper';
 import { EmoLogo } from './EmoLogo';
+import { api } from '../services/api';
 
 interface RegistrationModalProps {
   isOpen: boolean;
@@ -118,8 +119,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
     setIsVerifyingSponsor(true);
     setSponsorError('');
     try {
-      const res = await fetch(`/api/sponsor/check/${encodeURIComponent(trimmed)}`);
-      const data = await res.json();
+      const data = await api.checkSponsor(trimmed);
       if (data.success && data.sponsor) {
         setSponsorVerifiedName(data.sponsor.name);
         setSponsorError('');
@@ -207,29 +207,24 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
         isCurrent: true,
       };
 
-      const res = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: name.trim(),
-          email: email.trim().toLowerCase(),
-          phone: phone.trim(),
-          password: password.trim(),
-          paymentAddress: paymentAddress.trim(),
-          accountHolderType,
-          planId,
-          sponsorId: sponsorId.trim().toUpperCase(),
-          securityQuestion,
-          securityAnswer: securityAnswer.trim().toLowerCase(),
-          profilePic,
-          personalQrLink,
-          avatarFrame,
-          paymentScreenshot,
-          deviceInfo,
-        }),
+      const data = await api.register({
+        name: name.trim(),
+        email: email.trim().toLowerCase(),
+        phone: phone.trim(),
+        password: password.trim(),
+        paymentAddress: paymentAddress.trim(),
+        accountHolderType,
+        planId,
+        sponsorId: sponsorId.trim().toUpperCase(),
+        securityQuestion,
+        securityAnswer: securityAnswer.trim().toLowerCase(),
+        profilePic,
+        personalQrLink,
+        avatarFrame,
+        paymentScreenshot,
+        deviceInfo,
       });
 
-      const data = await res.json();
       if (data.success && data.user) {
         onRegisterSuccess(data.user);
         onClose();

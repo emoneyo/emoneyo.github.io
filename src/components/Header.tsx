@@ -29,6 +29,7 @@ interface HeaderProps {
   onOpenIdCard: () => void;
   onOpenGuidelines: () => void;
   onOpenFaq: () => void;
+  onOpenLegalCompany?: (tab: 'about' | 'services' | 'contact' | 'privacy' | 'terms' | 'disclaimer') => void;
   onLogout: () => void;
   settings: SystemSettings;
 }
@@ -42,6 +43,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenIdCard,
   onOpenGuidelines,
   onOpenFaq,
+  onOpenLegalCompany,
   onLogout,
   settings,
 }) => {
@@ -143,6 +145,32 @@ export const Header: React.FC<HeaderProps> = ({
                     <span>उपयोगकर्ता गाइड (Guidelines)</span>
                   </button>
 
+                  {onOpenLegalCompany && (
+                    <>
+                      <button
+                        onClick={() => {
+                          setIsMoreMenuOpen(false);
+                          onOpenLegalCompany('about');
+                        }}
+                        className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:bg-slate-100 transition-colors text-left"
+                      >
+                        <Sparkles className="w-4 h-4 text-indigo-600" />
+                        <span>हमारे बारे में (About Us)</span>
+                      </button>
+
+                      <button
+                        onClick={() => {
+                          setIsMoreMenuOpen(false);
+                          onOpenLegalCompany('contact');
+                        }}
+                        className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:bg-slate-100 transition-colors text-left"
+                      >
+                        <Mail className="w-4 h-4 text-blue-600" />
+                        <span>संपर्क करें (Contact Us)</span>
+                      </button>
+                    </>
+                  )}
+
                   <button
                     onClick={() => {
                       setIsMoreMenuOpen(false);
@@ -166,6 +194,42 @@ export const Header: React.FC<HeaderProps> = ({
                   </button>
 
                   <div className="border-t border-slate-100 my-1" />
+
+                  {onOpenLegalCompany && (
+                    <>
+                      <button
+                        onClick={() => {
+                          setIsMoreMenuOpen(false);
+                          onOpenLegalCompany('privacy');
+                        }}
+                        className="w-full flex items-center gap-2.5 px-3 py-1.5 rounded-xl text-[11px] font-semibold text-slate-600 hover:bg-slate-100 transition-colors text-left"
+                      >
+                        <span>गोपनीयता नीति (Privacy Policy)</span>
+                      </button>
+
+                      <button
+                        onClick={() => {
+                          setIsMoreMenuOpen(false);
+                          onOpenLegalCompany('terms');
+                        }}
+                        className="w-full flex items-center gap-2.5 px-3 py-1.5 rounded-xl text-[11px] font-semibold text-slate-600 hover:bg-slate-100 transition-colors text-left"
+                      >
+                        <span>नियम व शर्तें (Terms of Service)</span>
+                      </button>
+
+                      <button
+                        onClick={() => {
+                          setIsMoreMenuOpen(false);
+                          onOpenLegalCompany('disclaimer');
+                        }}
+                        className="w-full flex items-center gap-2.5 px-3 py-1.5 rounded-xl text-[11px] font-semibold text-slate-600 hover:bg-slate-100 transition-colors text-left"
+                      >
+                        <span>अस्वीकरण (Disclaimer)</span>
+                      </button>
+
+                      <div className="border-t border-slate-100 my-1" />
+                    </>
+                  )}
 
                   {/* Telegram Helpline */}
                   {settings.telegramChannel && (

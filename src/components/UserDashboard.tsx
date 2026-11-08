@@ -42,6 +42,7 @@ import {
 import { User, ReferralMember, ChatMessage, DeviceSession } from '../types';
 import { AvatarCropper } from './AvatarCropper';
 import { EmoLogo } from './EmoLogo';
+import { api } from '../services/api';
 
 interface UserDashboardProps {
   user: User;
@@ -112,8 +113,7 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
   const fetchTeam = async () => {
     setIsLoadingTeam(true);
     try {
-      const res = await fetch(`/api/user/referrals/${user.memberId}`);
-      const data = await res.json();
+      const data = await api.getReferrals(user.memberId);
       if (data.success) {
         setReferralsData(data);
       }
@@ -127,8 +127,7 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
   // Fetch Chat messages
   const fetchChat = async () => {
     try {
-      const res = await fetch(`/api/chat/${user.memberId}`);
-      const data = await res.json();
+      const data = await api.getChat(user.memberId);
       if (data.success && data.messages) {
         setChatMessages(data.messages);
       }
@@ -161,16 +160,11 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
 
     setIsSendingChat(true);
     try {
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          memberId: user.memberId,
-          sender: 'user',
-          text: chatInput.trim(),
-        }),
+      const data = await api.sendChat({
+        memberId: user.memberId,
+        sender: 'user',
+        text: chatInput.trim(),
       });
-      const data = await res.json();
       if (data.success && data.message) {
         setChatMessages((prev) => [...prev, data.message]);
         setChatInput('');
@@ -187,16 +181,11 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
     setIsRevokingDevice(true);
     setDeviceSuccessMsg('');
     try {
-      const res = await fetch('/api/user/devices/revoke', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          memberId: user.memberId,
-          deviceId,
-          revokeAllOthers,
-        }),
+      const data = await api.revokeDevice({
+        memberId: user.memberId,
+        deviceId,
+        revokeAllOthers,
       });
-      const data = await res.json();
       if (data.success && data.activeDevices) {
         onUpdateUser({ ...user, activeDevices: data.activeDevices });
         setDeviceSuccessMsg(
@@ -220,19 +209,14 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
     setProfileSuccessMsg('');
 
     try {
-      const res = await fetch(`/api/user/profile/${user.memberId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: editName.trim(),
-          email: editEmail.trim(),
-          phone: editPhone.trim(),
-          paymentAddress: editPayment.trim(),
-          avatarFrame: editFrame,
-          privacySettings: editPrivacy,
-        }),
+      const data = await api.updateProfile(user.memberId, {
+        name: editName.trim(),
+        email: editEmail.trim(),
+        phone: editPhone.trim(),
+        paymentAddress: editPayment.trim(),
+        avatarFrame: editFrame,
+        privacySettings: editPrivacy,
       });
-      const data = await res.json();
       if (data.success && data.user) {
         onUpdateUser(data.user);
         setProfileSuccessMsg('प्रोफ़ाइल और गोपनीयता सेटिंग्स सफलतापूर्वक अपडेट हो गईं!');
@@ -1237,12 +1221,7 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
           initialImage={user.profilePic}
           onCropComplete={async (dataUrl) => {
             try {
-              const res = await fetch(`/api/user/profile/${user.memberId}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ profilePic: dataUrl }),
-              });
-              const data = await res.json();
+              const data = await api.updateProfile(user.memberId, { profilePic: dataUrl });
               if (data.success && data.user) {
                 onUpdateUser(data.user);
               }

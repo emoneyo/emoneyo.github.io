@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { User } from '../types';
 import { EmoLogo } from './EmoLogo';
+import { api } from '../services/api';
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -79,16 +80,11 @@ export const LoginModal: React.FC<LoginModalProps> = ({
         isCurrent: true,
       };
 
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          identifier: identifier.trim(),
-          password: password.trim(),
-          deviceInfo,
-        }),
+      const data = await api.login({
+        identifier: identifier.trim(),
+        password: password.trim(),
+        deviceInfo,
       });
-      const data = await res.json();
       if (data.success && data.user) {
         onLoginSuccess(data.user);
         onClose();
@@ -113,15 +109,10 @@ export const LoginModal: React.FC<LoginModalProps> = ({
 
     setIsRecoverLoading(true);
     try {
-      const res = await fetch('/api/auth/recover', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          identifier: recoverIdentifier.trim(),
-          securityAnswer: securityAnswer.trim().toLowerCase(),
-        }),
+      const data = await api.recover({
+        identifier: recoverIdentifier.trim(),
+        securityAnswer: securityAnswer.trim().toLowerCase(),
       });
-      const data = await res.json();
       if (data.success && data.recoveredInfo) {
         setRecoveredInfo(data.recoveredInfo);
       } else {

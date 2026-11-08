@@ -34,6 +34,8 @@ import { AdminPanel } from './components/AdminPanel';
 import { PromotionKitModal } from './components/PromotionKitModal';
 import { FAQSection } from './components/FAQSection';
 import { UserGuidelineModal } from './components/UserGuidelineModal';
+import { LegalCompanyModal, PolicyTabType } from './components/LegalCompanyModal';
+import { api } from './services/api';
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -45,13 +47,13 @@ export default function App() {
     upiId: '8877490845@spicepay',
     upiName: 'Vikas Kumar',
     announcementText:
-      '🚨🚨🚨 Attention Everybody 🚨🚨🚨 आ गया पैसा कमाने के लिए ऑनलाइन का बेस्ट तरीका! अब कोई भी कमा सकता है कम समय में ज्यादा से ज्यादा पैसा। EMO NORMAL & FAST INCOME SERVICE से अभी जुड़ें!',
+      '🚨🚨🚨 Attention Everybody 🚨🚨🚨 आ गया पैसा कमाने के लिए ऑनलाइन का बेस्ट तरीका! अब कोई भी कमा सकता है कम समय में ज्यादा से ज्यादा पैसा। EmoneyO NORMAL & FAST INCOME SERVICE से अभी जुड़ें!',
     announcementSpeed: 'slow',
     services: [
       {
         id: 'normal_10',
         category: 'normal',
-        title: 'EMO Normal Starter (₹10)',
+        title: 'EmoneyO Normal Starter (₹10)',
         price: 10,
         perDownline: 3,
         benefits: [
@@ -63,7 +65,7 @@ export default function App() {
       {
         id: 'normal_50',
         category: 'normal',
-        title: 'EMO Normal Growth (₹50)',
+        title: 'EmoneyO Normal Growth (₹50)',
         price: 50,
         perDownline: 20,
         benefits: [
@@ -75,7 +77,7 @@ export default function App() {
       {
         id: 'normal_100',
         category: 'normal',
-        title: 'EMO Normal Pro (₹100)',
+        title: 'EmoneyO Normal Pro (₹100)',
         price: 100,
         perDownline: 55,
         benefits: [
@@ -87,7 +89,7 @@ export default function App() {
       {
         id: 'fast_100',
         category: 'fast',
-        title: 'EMO Fast Income Silver (₹100)',
+        title: 'EmoneyO Fast Income Silver (₹100)',
         price: 100,
         benefits: [
           '3 लेवल तक कमाई का मौका',
@@ -103,7 +105,7 @@ export default function App() {
       {
         id: 'fast_500',
         category: 'fast',
-        title: 'EMO Fast Income Gold (₹500)',
+        title: 'EmoneyO Fast Income Gold (₹500)',
         price: 500,
         benefits: [
           '3 लेवल सुपरफास्ट कमाई',
@@ -119,7 +121,7 @@ export default function App() {
       {
         id: 'fast_1000',
         category: 'fast',
-        title: 'EMO Fast Income Platinum (₹1000)',
+        title: 'EmoneyO Fast Income Platinum (₹1000)',
         price: 1000,
         benefits: [
           '3 लेवल मैक्सिमम पैसिव इनकम',
@@ -142,6 +144,13 @@ export default function App() {
   const [adminPanelOpen, setAdminPanelOpen] = useState<boolean>(false);
   const [promoKitOpen, setPromoKitOpen] = useState<boolean>(false);
   const [guidelinesOpen, setGuidelinesOpen] = useState<boolean>(false);
+  const [legalModalOpen, setLegalModalOpen] = useState<boolean>(false);
+  const [legalModalTab, setLegalModalTab] = useState<PolicyTabType>('about');
+
+  const openLegalModal = (tab: PolicyTabType) => {
+    setLegalModalTab(tab);
+    setLegalModalOpen(true);
+  };
 
   // Pre-selected parameters
   const [preSelectedPlanId, setPreSelectedPlanId] = useState<string>('normal_10');
@@ -149,9 +158,8 @@ export default function App() {
 
   // Load public system settings and check URL referral params on mount
   useEffect(() => {
-    // 1. Fetch live system settings
-    fetch('/api/settings')
-      .then((res) => res.json())
+    // 1. Fetch live system settings (with static fallback)
+    api.getSettings()
       .then((data) => {
         if (data.success && data.settings) {
           setSystemSettings((prev) => ({ ...prev, ...data.settings }));
@@ -162,8 +170,7 @@ export default function App() {
     // 2. Check local session for persistent multi-device login
     const savedMemberId = localStorage.getItem('emo_active_member_id');
     if (savedMemberId) {
-      fetch(`/api/user/profile/${savedMemberId}`)
-        .then((res) => res.json())
+      api.getProfile(savedMemberId)
         .then((data) => {
           if (data.success && data.user) {
             setCurrentUser(data.user);
@@ -232,6 +239,7 @@ export default function App() {
         onOpenIdCard={() => setIdCardModalOpen(true)}
         onOpenGuidelines={() => setGuidelinesOpen(true)}
         onOpenFaq={() => scrollToSection('faq')}
+        onOpenLegalCompany={(tab) => openLegalModal(tab)}
         onLogout={handleLogout}
         settings={systemSettings}
       />
@@ -269,8 +277,8 @@ export default function App() {
                   आ गया पैसा कमाने के लिए ऑनलाइन का बेस्ट तरीका
                 </div>
 
-                <h1 className="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight">
-                  EARN MONEY ONLINE <span className="text-amber-300">(EMO)</span>
+                <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight leading-tight">
+                  EARN MONEY ONLINE <span className="rainbow-text block sm:inline">(EmoneyO)</span>
                 </h1>
 
                 <p className="text-xs sm:text-sm md:text-base text-blue-100 mt-3 font-medium leading-relaxed">
@@ -278,7 +286,7 @@ export default function App() {
                 </p>
 
                 <p className="text-xs sm:text-sm text-amber-200 mt-2 font-bold leading-relaxed">
-                  इसी बात से प्रेरित होकर हमने EMO को DESIGN किया है, जो SOCIAL MEDIA PLATFORM के माध्यम से SOCIAL NETWORKING द्वारा पैसा कमाने में सहायता करता है। सबसे बड़ी बात ये है कि ARTIFICIALLY INTELLIGENT (AI) के कारण ये और भी आसान हो गया है।
+                  इसी बात से प्रेरित होकर हमने EmoneyO को DESIGN किया है, जो SOCIAL MEDIA PLATFORM के माध्यम से SOCIAL NETWORKING द्वारा पैसा कमाने में सहायता करता है। सबसे बड़ी बात ये है कि ARTIFICIALLY INTELLIGENT (AI) के कारण ये और भी आसान हो गया है।
                 </p>
 
                 {/* Call to Actions */}
@@ -380,7 +388,10 @@ export default function App() {
             <div className="flex items-center gap-3">
               <EmoLogo variant="badge" size={48} />
               <div>
-                <h3 className="text-lg font-black text-blue-700">EMO - EARN MONEY ONLINE</h3>
+                <h3 className="text-lg font-black text-blue-700 flex items-center gap-1.5">
+                  <span className="rainbow-text">EmoneyO</span>
+                  <span className="text-slate-800">- EARN MONEY ONLINE</span>
+                </h3>
                 <p className="text-xs text-slate-600 font-medium">
                   Social Media Networking Platform • Powered by AI
                 </p>
@@ -422,26 +433,121 @@ export default function App() {
             </div>
           </div>
 
+          {/* Quick Nav Grid for Adsense & Company compliance */}
+          <div className="py-5 border-b border-slate-200 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs font-semibold text-slate-700">
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-wider text-slate-400 mb-2">कंपनी व सेवाएं</p>
+              <ul className="space-y-1.5">
+                <li>
+                  <button onClick={() => openLegalModal('about')} className="hover:text-blue-600 transition-colors">
+                    • हमारे बारे में (About Us)
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => openLegalModal('services')} className="hover:text-blue-600 transition-colors">
+                    • उत्पाद व सेवाएं (Services & Prices)
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => openLegalModal('contact')} className="hover:text-blue-600 transition-colors">
+                    • संपर्क पेज (Contact Us)
+                  </button>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-wider text-slate-400 mb-2">सहायता व जानकारी</p>
+              <ul className="space-y-1.5">
+                <li>
+                  <button onClick={() => scrollToSection('faq')} className="hover:text-blue-600 transition-colors">
+                    • अक्सर पूछे जाने वाले सवाल (FAQ)
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => setGuidelinesOpen(true)} className="hover:text-blue-600 transition-colors">
+                    • उपयोगकर्ता गाइड (Guidelines)
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => setIdCardModalOpen(true)} className="hover:text-blue-600 transition-colors">
+                    • डिजिटल आईडी कार्ड खोजें
+                  </button>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-wider text-slate-400 mb-2">कानूनी व गोपनीयता (Legal)</p>
+              <ul className="space-y-1.5">
+                <li>
+                  <button onClick={() => openLegalModal('privacy')} className="hover:text-emerald-700 transition-colors font-bold">
+                    • गोपनीयता नीति (Privacy Policy)
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => openLegalModal('terms')} className="hover:text-blue-600 transition-colors">
+                    • नियम और शर्तें (Terms of Service)
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => openLegalModal('disclaimer')} className="hover:text-rose-600 transition-colors">
+                    • अस्वीकरण (Disclaimer)
+                  </button>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-wider text-slate-400 mb-2">सपोर्ट व चैनल</p>
+              <ul className="space-y-1.5 text-slate-600">
+                <li className="truncate">
+                  Telegram: <span className="font-bold text-sky-600">@NEWUSERHELPLINE</span>
+                </li>
+                <li className="truncate">
+                  Email: <span className="font-bold text-blue-600">{systemSettings.helplineEmail}</span>
+                </li>
+                <li>
+                  <button
+                    onClick={() => setAdminPanelOpen(true)}
+                    className="mt-1 inline-flex items-center gap-1 text-[11px] font-black text-rose-600 hover:text-rose-700 bg-rose-50 px-2.5 py-1 rounded-lg border border-rose-200"
+                  >
+                    <span>एडमिन लॉगिन (Admin Panel)</span>
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-slate-500 font-medium">
-            <p>© {new Date().getFullYear()} EMO Platform. सर्वाधिकार सुरक्षित (All Rights Reserved).</p>
-            <div className="flex items-center gap-4">
+            <p>© {new Date().getFullYear()} EmoneyO (EARN MONEY ONLINE) Platform. सर्वाधिकार सुरक्षित (All Rights Reserved).</p>
+            <div className="flex flex-wrap items-center gap-3">
               <button
-                onClick={() => setGuidelinesOpen(true)}
+                onClick={() => openLegalModal('privacy')}
                 className="hover:underline text-slate-700 font-semibold"
               >
-                उपयोगकर्ता गाइड
+                Privacy Policy
               </button>
+              <span>•</span>
               <button
-                onClick={() => scrollToSection('faq')}
+                onClick={() => openLegalModal('terms')}
                 className="hover:underline text-slate-700 font-semibold"
               >
-                नियम व शर्तें
+                Terms of Service
               </button>
+              <span>•</span>
               <button
-                onClick={() => setAdminPanelOpen(true)}
-                className="hover:underline text-rose-600 font-bold"
+                onClick={() => openLegalModal('disclaimer')}
+                className="hover:underline text-slate-700 font-semibold"
               >
-                एडमिन लॉगिन
+                Disclaimer
+              </button>
+              <span>•</span>
+              <button
+                onClick={() => openLegalModal('contact')}
+                className="hover:underline text-slate-700 font-semibold"
+              >
+                Contact
               </button>
             </div>
           </div>
@@ -547,6 +653,18 @@ export default function App() {
         isOpen={guidelinesOpen}
         onClose={() => setGuidelinesOpen(false)}
         onOpenRegister={() => setRegisterModalOpen(true)}
+      />
+
+      {/* 7. Comprehensive Legal & Company Modal (About Us, Services, Contact Us, FAQ, Privacy Policy, Terms, Disclaimer) */}
+      <LegalCompanyModal
+        isOpen={legalModalOpen}
+        onClose={() => setLegalModalOpen(false)}
+        initialTab={legalModalTab}
+        systemSettings={systemSettings}
+        onSelectPlan={(planId) => {
+          setPreSelectedPlanId(planId);
+          setRegisterModalOpen(true);
+        }}
       />
     </div>
   );

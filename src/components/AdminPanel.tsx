@@ -32,6 +32,7 @@ import {
 } from 'lucide-react';
 import { User, SystemSettings } from '../types';
 import { EmoLogo } from './EmoLogo';
+import { api } from '../services/api';
 
 interface AdminPanelProps {
   isOpen: boolean;
@@ -96,12 +97,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     setIsVerifyingPassword(true);
 
     try {
-      const res = await fetch('/api/admin/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password: adminPasswordInput }),
-      });
-      const data = await res.json();
+      const data = await api.adminLogin(adminPasswordInput);
       if (data.success) {
         setIsAuthenticated(true);
         setAdminPasswordInput('');
@@ -121,8 +117,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   const fetchAdminUsers = async () => {
     setIsLoadingUsers(true);
     try {
-      const res = await fetch('/api/admin/users');
-      const data = await res.json();
+      const data = await api.getAdminUsers();
       if (data.success && data.users) {
         setUsers(data.users);
       }
@@ -136,12 +131,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   // Approve or Reject User
   const handleVerifyUser = async (memberId: string, action: 'approve' | 'reject', reason?: string) => {
     try {
-      const res = await fetch(`/api/admin/user/${memberId}/verify`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action, reason }),
-      });
-      const data = await res.json();
+      const data = await api.verifyUser(memberId, action, reason);
       if (data.success) {
         setUsers((prev) =>
           prev.map((u) => (u.memberId === memberId ? data.user : u))
@@ -162,8 +152,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     setIsLoadingAudit(true);
     setInspectModalOpen(true);
     try {
-      const res = await fetch(`/api/admin/user-audit/${memberId}`);
-      const data = await res.json();
+      const data = await api.getUserAudit(memberId);
       if (data.success) {
         setSelectedUserAudit(data);
       }
@@ -180,12 +169,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     setIsSavingSettings(true);
     setSettingsSuccess('');
     try {
-      const res = await fetch('/api/admin/settings', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(settingsForm),
-      });
-      const data = await res.json();
+      const data = await api.updateSettings(settingsForm);
       if (data.success && data.settings) {
         onUpdateSettings(data.settings);
         setSettingsSuccess('सभी सेटिंग्स सफलतापूर्वक अपडेट हो गईं!');
@@ -206,17 +190,12 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     setIsSendingMsg(true);
     setMsgSuccess('');
     try {
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          memberId: targetMemberId.trim().toUpperCase(),
-          sender: 'admin',
-          text: broadcastText.trim(),
-          linkUrl: broadcastLink.trim() || undefined,
-        }),
+      const data = await api.sendChat({
+        memberId: targetMemberId.trim().toUpperCase(),
+        sender: 'admin',
+        text: broadcastText.trim(),
+        linkUrl: broadcastLink.trim() || undefined,
       });
-      const data = await res.json();
       if (data.success) {
         setMsgSuccess(`संदेश सदस्य ${targetMemberId.toUpperCase()} के डैशबोर्ड पर सफलतापूर्वक भेजा गया!`);
         setBroadcastText('');
@@ -253,8 +232,9 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
             <EmoLogo variant="badge" size={36} />
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="font-black text-base sm:text-lg leading-tight text-white">
-                  EMO एडमिन कंट्रोल सेंटर (Admin Panel)
+                <h2 className="font-black text-base sm:text-lg leading-tight text-white flex items-center gap-1.5">
+                  <span className="rainbow-text">EmoneyO</span>
+                  <span>एडमिन कंट्रोल सेंटर (Admin Panel)</span>
                 </h2>
                 <span className="bg-red-500 text-white font-extrabold text-[10px] px-2 py-0.5 rounded-full uppercase tracking-wider">
                   MASTER SECURE

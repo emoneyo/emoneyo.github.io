@@ -88,6 +88,68 @@
   animation: goldHerdGlow 2.5s ease-in-out infinite;
 }
 
+/* Premium Rainbow Animated Text Gradient */
+@keyframes rainbowFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.rainbow-text {
+  background: linear-gradient(
+    90deg,
+    #ff0055,
+    #ff7700,
+    #ffdd00,
+    #00e676,
+    #00b0ff,
+    #7c4dff,
+    #ff007f,
+    #ff7700
+  );
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rainbowFlow 4s ease infinite;
+}
+
+.rainbow-text-subtle {
+  background: linear-gradient(
+    90deg,
+    #f59e0b,
+    #ec4899,
+    #8b5cf6,
+    #3b82f6,
+    #10b981,
+    #f59e0b
+  );
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rainbowFlow 5s ease infinite;
+}
+
+.rainbow-border {
+  background: linear-gradient(
+    90deg,
+    #ff007f,
+    #ff7700,
+    #ffd700,
+    #00e676,
+    #00b0ff,
+    #9c27b0,
+    #ff007f
+  );
+  background-size: 300% 300%;
+  animation: rainbowFlow 4s linear infinite;
+}
+
 /* Slow marquee animation */
 @keyframes marqueeSlow {
   0% {

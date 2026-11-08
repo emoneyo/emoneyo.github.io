@@ -116,13 +116,13 @@ const defaultSettings: SystemSettings = {
   whatsAppNumber: '8877490845',
   upiId: '8877490845@spicepay',
   upiName: 'Vikas Kumar',
-  announcementText: '🚨🚨🚨 Attention Everybody 🚨🚨🚨 आ गया पैसा कमाने के लिए ऑनलाइन का बेस्ट तरीका! अब कोई भी कमा सकता है कम समय में ज्यादा से ज्यादा पैसा। EMO NORMAL & FAST INCOME SERVICE से अभी जुड़ें!',
+  announcementText: '🚨🚨🚨 Attention Everybody 🚨🚨🚨 आ गया पैसा कमाने के लिए ऑनलाइन का बेस्ट तरीका! अब कोई भी कमा सकता है कम समय में ज्यादा से ज्यादा पैसा। EmoneyO NORMAL & FAST INCOME SERVICE से अभी जुड़ें!',
   announcementSpeed: 'slow',
   services: [
     {
       id: 'normal_10',
       category: 'normal',
-      title: 'EMO Normal Starter (₹10)',
+      title: 'EmoneyO Normal Starter (₹10)',
       price: 10,
       perDownline: 3,
       benefits: ['प्रत्येक डाउनलाइन पर ₹3 की सीधी कमाई', 'कम इनवेस्टमेंट में सीखने और कमाने का मौका', 'डिजिटल आईडी कार्ड व प्रमोशन किट'],
@@ -130,7 +130,7 @@ const defaultSettings: SystemSettings = {
     {
       id: 'normal_50',
       category: 'normal',
-      title: 'EMO Normal Growth (₹50)',
+      title: 'EmoneyO Normal Growth (₹50)',
       price: 50,
       perDownline: 20,
       benefits: ['प्रत्येक डाउनलाइन पर ₹20 की सीधी कमाई', 'फास्ट रेफरल लिंक एक्टिवेशन', 'लाइव सपोर्ट व अर्निंग किट'],
@@ -138,7 +138,7 @@ const defaultSettings: SystemSettings = {
     {
       id: 'normal_100',
       category: 'normal',
-      title: 'EMO Normal Pro (₹100)',
+      title: 'EmoneyO Normal Pro (₹100)',
       price: 100,
       perDownline: 55,
       benefits: ['प्रत्येक डाउनलाइन पर ₹55 की बंपर कमाई (55% रिटर्न)', 'हाई अर्निंग पोटेंशियल', 'प्रीमियम डिजिटल आईडी कार्ड'],
@@ -146,7 +146,7 @@ const defaultSettings: SystemSettings = {
     {
       id: 'fast_100',
       category: 'fast',
-      title: 'EMO Fast Income Silver (₹100)',
+      title: 'EmoneyO Fast Income Silver (₹100)',
       price: 100,
       benefits: ['3 लेवल तक कमाई का मौका', 'लेवल 1: ₹30 | लेवल 2: ₹10 | लेवल 3: ₹5', 'ऑटोमेटेड टीम इनकम सिस्टम'],
       levels: [
@@ -158,7 +158,7 @@ const defaultSettings: SystemSettings = {
     {
       id: 'fast_500',
       category: 'fast',
-      title: 'EMO Fast Income Gold (₹500)',
+      title: 'EmoneyO Fast Income Gold (₹500)',
       price: 500,
       benefits: ['3 लेवल सुपरफास्ट कमाई', 'लेवल 1: ₹150 | लेवल 2: ₹75 | लेवल 3: ₹25', 'वीआईपी ट्रेनिंग और सोशल मीडिया पोस्टर'],
       levels: [
@@ -170,7 +170,7 @@ const defaultSettings: SystemSettings = {
     {
       id: 'fast_1000',
       category: 'fast',
-      title: 'EMO Fast Income Platinum (₹1000)',
+      title: 'EmoneyO Fast Income Platinum (₹1000)',
       price: 1000,
       benefits: ['3 लेवल मैक्सिमम पैसिव इनकम', 'लेवल 1: ₹400 | लेवल 2: ₹150 | लेवल 3: ₹50', 'फुल एडमिन प्रायोरिटी सपोर्ट'],
       levels: [
@@ -192,10 +192,10 @@ const defaultAdminUser: UserRecord = {
   paymentAddress: '8877490845@spicepay',
   accountHolderType: 'self',
   planId: 'fast_1000',
-  planName: 'EMO Fast Income Platinum (₹1000)',
+  planName: 'EmoneyO Fast Income Platinum (₹1000)',
   planAmount: 1000,
   sponsorId: 'SYSTEM',
-  sponsorName: 'EMO Official Head Office',
+  sponsorName: 'EmoneyO Official Head Office',
   profilePic: '',
   personalQrLink: 'upi://pay?pa=8877490845@spicepay&pn=Vikas%20Kumar',
   avatarFrame: 'fire',
@@ -476,7 +476,7 @@ async function startServer() {
         id: `msg-${Date.now()}`,
         memberId: newUser.memberId,
         sender: 'admin',
-        text: `नमस्ते ${newUser.name}! EMO (Earn Money Online) में आपका स्वागत है। आपका मेंबर आईडी है: ${newUser.memberId}। आपका पेमेंट स्क्रीनशॉट एडमिन वेरिफिकेशन के लिए सबमिट हो गया है। एडमिन द्वारा वेरिफिकेशन के बाद आपका रेफरल लिंक एक्टिवेट हो जाएगा।`,
+        text: `नमस्ते ${newUser.name}! EmoneyO (EARN MONEY ONLINE) में आपका स्वागत है। आपका मेंबर आईडी है: ${newUser.memberId}। आपका पेमेंट स्क्रीनशॉट एडमिन वेरिफिकेशन के लिए सबमिट हो गया है। एडमिन द्वारा वेरिफिकेशन के बाद आपका रेफरल लिंक एक्टिवेट हो जाएगा।`,
         timestamp: new Date().toISOString(),
         read: false,
       });

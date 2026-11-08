@@ -26,6 +26,7 @@ import {
 } from 'lucide-react';
 import { User } from '../types';
 import { EmoLogo } from './EmoLogo';
+import { api } from '../services/api';
 
 interface DigitalIdCardProps {
   user: User | null;
@@ -154,16 +155,15 @@ export const DigitalIdCard: React.FC<DigitalIdCardProps> = ({
     }
     setIsSearching(true);
     try {
-      const res = await fetch(`/api/sponsor/check/${encodeURIComponent(searchSponsorInput.trim())}`);
-      const data = await res.json();
+      const data = await api.checkSponsor(searchSponsorInput.trim());
       if (data.success && data.sponsor) {
         setGuestSponsor({
           memberId: data.sponsor.memberId,
           name: data.sponsor.name,
-          planName: data.sponsor.planName || 'EMO Standard',
+          planName: data.sponsor.planName || 'EmoneyO Standard',
           phone: data.sponsor.phone || '********',
           paymentAddress: '8877490845@spicepay',
-          email: 'official@emo.online',
+          email: 'official@emoneyo.online',
           verificationStatus: data.sponsor.status || 'approved',
           registrationDate: new Date().toISOString(),
           privacySettings: { hidePhone: false, hidePayment: true, hideEmail: true },
@@ -189,14 +189,9 @@ export const DigitalIdCard: React.FC<DigitalIdCardProps> = ({
     setPrivacySuccessMsg('');
 
     try {
-      const res = await fetch(`/api/user/profile/${user.memberId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          privacySettings: privacyToggles,
-        }),
+      const data = await api.updateProfile(user.memberId, {
+        privacySettings: privacyToggles,
       });
-      const data = await res.json();
       if (data.success && data.user) {
         if (onUpdateUser) {
           onUpdateUser(data.user);
@@ -641,7 +636,7 @@ export const DigitalIdCard: React.FC<DigitalIdCardProps> = ({
                 <div className="mt-1 space-y-0.5 text-[11px] font-medium text-slate-300">
                   <p className="truncate">
                     <span className="text-slate-400">प्लान:</span>{' '}
-                    <span className="font-bold text-emerald-400">{displayUser.planName || 'EMO Standard'}</span>
+                    <span className="font-bold text-emerald-400">{displayUser.planName || 'EmoneyO Standard'}</span>
                   </p>
                   <p className="truncate">
                     <span className="text-slate-400">स्पॉन्सर:</span>{' '}
@@ -692,7 +687,7 @@ export const DigitalIdCard: React.FC<DigitalIdCardProps> = ({
                 नियम व शर्तें एवं हेल्पलाइन (RULES & SUPPORT)
               </span>
               <span className="text-[10px] text-slate-400 font-mono">
-                EMO-OFFICIAL-AUTH
+                EMONEYO-OFFICIAL-AUTH
               </span>
             </div>
 
@@ -700,7 +695,7 @@ export const DigitalIdCard: React.FC<DigitalIdCardProps> = ({
             <div className="text-[10px] sm:text-[11px] text-slate-300 space-y-1.5 my-auto leading-relaxed">
               <div className="flex items-start gap-1.5">
                 <span className="text-amber-400 font-bold">•</span>
-                <span>यह डिजिटल कार्ड EMO सोशल नेटवर्किंग प्लेटफॉर्म के अधिकृत सदस्य की पहचान है।</span>
+                <span>यह डिजिटल कार्ड EmoneyO (EARN MONEY ONLINE) सोशल नेटवर्किंग प्लेटफॉर्म के अधिकृत सदस्य की पहचान है।</span>
               </div>
               <div className="flex items-start gap-1.5">
                 <span className="text-amber-400 font-bold">•</span>
@@ -767,7 +762,7 @@ export const DigitalIdCard: React.FC<DigitalIdCardProps> = ({
             {/* If viewing sponsor card, show WhatsApp Contact Request and Register */}
             <div className="grid grid-cols-2 gap-2">
               <a
-                href={`https://wa.me/?text=${encodeURIComponent(`नमस्ते, मैं EMO प्लेटफॉर्म में आपकी स्पॉन्सर आईडी ${displayUser.memberId} से जुड़ना चाहता हूँ।`)}`}
+                href={`https://wa.me/?text=${encodeURIComponent(`नमस्ते, मैं EmoneyO प्लेटफॉर्म में आपकी स्पॉन्सर आईडी ${displayUser.memberId} से जुड़ना चाहता हूँ।`)}`}
                 target="_blank"
                 rel="noreferrer"
                 className="flex items-center justify-center gap-1.5 py-2.5 px-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-md transition-all active:scale-95"
