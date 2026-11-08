@@ -1,6 +1,6 @@
 {
-  "name": "EMO - Earn Money Online Platform",
-  "description": "Official EMO (Earn Money Online) platform with Normal and Fast Income earning services, digital ID cards, Telegram-style user dashboard, referral kit, and admin management.",
+  "name": "EmoneyO - EARN MONEY ONLINE Platform",
+  "description": "Official EmoneyO (EARN MONEY ONLINE) platform with Normal and Fast Income earning services, 3D digital ID cards, Telegram-style user dashboard, referral kit, and admin management.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
