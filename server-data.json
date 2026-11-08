@@ -1,0 +1,166 @@
+{
+  "users": [
+    {
+      "memberId": "EMO10ADMIN01",
+      "name": "Vikas Kumar (Founder)",
+      "email": "newuserhelpline@gmail.com",
+      "phone": "8877490845",
+      "password": "Password@123",
+      "paymentAddress": "8877490845@spicepay",
+      "accountHolderType": "self",
+      "planId": "fast_1000",
+      "planName": "EMO Fast Income Platinum (₹1000)",
+      "planAmount": 1000,
+      "sponsorId": "SYSTEM",
+      "sponsorName": "EMO Official Head Office",
+      "profilePic": "",
+      "personalQrLink": "upi://pay?pa=8877490845@spicepay&pn=Vikas%20Kumar",
+      "avatarFrame": "fire",
+      "privacySettings": {
+        "hidePhone": false,
+        "hidePayment": false,
+        "hideEmail": false
+      },
+      "verificationStatus": "approved",
+      "canShareReferral": true,
+      "registrationDate": "2025-01-01T10:00:00.000Z",
+      "securityQuestion": "पसंदीदा शहर या स्कूल का नाम",
+      "securityAnswer": "delhi",
+      "editHistory": [],
+      "originalRegistration": {
+        "name": "Vikas Kumar (Founder)",
+        "email": "newuserhelpline@gmail.com",
+        "phone": "8877490845",
+        "paymentAddress": "8877490845@spicepay",
+        "planId": "fast_1000",
+        "sponsorId": "SYSTEM",
+        "date": "2025-01-01T10:00:00.000Z"
+      }
+    }
+  ],
+  "messages": [],
+  "settings": {
+    "adminPassword": "EMOADMIN",
+    "helplineEmail": "newuserhelpline@gmail.com",
+    "telegramChannel": "https://t.me/NEWUSERHELPLINE",
+    "showWhatsApp": false,
+    "whatsAppNumber": "8877490845",
+    "upiId": "8877490845@spicepay",
+    "upiName": "Vikas Kumar",
+    "announcementText": "🚨🚨🚨 Attention Everybody 🚨🚨🚨 आ गया पैसा कमाने के लिए ऑनलाइन का बेस्ट तरीका! अब कोई भी कमा सकता है कम समय में ज्यादा से ज्यादा पैसा। EMO NORMAL & FAST INCOME SERVICE से अभी जुड़ें!",
+    "announcementSpeed": "slow",
+    "services": [
+      {
+        "id": "normal_10",
+        "category": "normal",
+        "title": "EMO Normal Starter (₹10)",
+        "price": 10,
+        "perDownline": 3,
+        "benefits": [
+          "प्रत्येक डाउनलाइन पर ₹3 की सीधी कमाई",
+          "कम इनवेस्टमेंट में सीखने और कमाने का मौका",
+          "डिजिटल आईडी कार्ड व प्रमोशन किट"
+        ]
+      },
+      {
+        "id": "normal_50",
+        "category": "normal",
+        "title": "EMO Normal Growth (₹50)",
+        "price": 50,
+        "perDownline": 20,
+        "benefits": [
+          "प्रत्येक डाउनलाइन पर ₹20 की सीधी कमाई",
+          "फास्ट रेफरल लिंक एक्टिवेशन",
+          "लाइव सपोर्ट व अर्निंग किट"
+        ]
+      },
+      {
+        "id": "normal_100",
+        "category": "normal",
+        "title": "EMO Normal Pro (₹100)",
+        "price": 100,
+        "perDownline": 55,
+        "benefits": [
+          "प्रत्येक डाउनलाइन पर ₹55 की बंपर कमाई (55% रिटर्न)",
+          "हाई अर्निंग पोटेंशियल",
+          "प्रीमियम डिजिटल आईडी कार्ड"
+        ]
+      },
+      {
+        "id": "fast_100",
+        "category": "fast",
+        "title": "EMO Fast Income Silver (₹100)",
+        "price": 100,
+        "benefits": [
+          "3 लेवल तक कमाई का मौका",
+          "लेवल 1: ₹30 | लेवल 2: ₹10 | लेवल 3: ₹5",
+          "ऑटोमेटेड टीम इनकम सिस्टम"
+        ],
+        "levels": [
+          {
+            "level": 1,
+            "amount": 30
+          },
+          {
+            "level": 2,
+            "amount": 10
+          },
+          {
+            "level": 3,
+            "amount": 5
+          }
+        ]
+      },
+      {
+        "id": "fast_500",
+        "category": "fast",
+        "title": "EMO Fast Income Gold (₹500)",
+        "price": 500,
+        "benefits": [
+          "3 लेवल सुपरफास्ट कमाई",
+          "लेवल 1: ₹150 | लेवल 2: ₹75 | लेवल 3: ₹25",
+          "वीआईपी ट्रेनिंग और सोशल मीडिया पोस्टर"
+        ],
+        "levels": [
+          {
+            "level": 1,
+            "amount": 150
+          },
+          {
+            "level": 2,
+            "amount": 75
+          },
+          {
+            "level": 3,
+            "amount": 25
+          }
+        ]
+      },
+      {
+        "id": "fast_1000",
+        "category": "fast",
+        "title": "EMO Fast Income Platinum (₹1000)",
+        "price": 1000,
+        "benefits": [
+          "3 लेवल मैक्सिमम पैसिव इनकम",
+          "लेवल 1: ₹400 | लेवल 2: ₹150 | लेवल 3: ₹50",
+          "फुल एडमिन प्रायोरिटी सपोर्ट"
+        ],
+        "levels": [
+          {
+            "level": 1,
+            "amount": 400
+          },
+          {
+            "level": 2,
+            "amount": 150
+          },
+          {
+            "level": 3,
+            "amount": 50
+          }
+        ]
+      }
+    ]
+  }
+}
